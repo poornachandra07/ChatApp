@@ -10,11 +10,13 @@ namespace ChatApp.Controllers
     [ApiController]
     public class Chat : ControllerBase
     {
+        private readonly ILogger<Chat> _log;
         private readonly ChatHub _chatHub;
 
-        public Chat()
+        public Chat(ILogger<Chat> log, ChatHub chathub)
         {
-            _chatHub = new ChatHub();
+            _log = log;
+            _chatHub = chathub;
         }
 
         /// <summary>
@@ -24,7 +26,8 @@ namespace ChatApp.Controllers
         [HttpPost("PostChat")]
         public IActionResult Post([FromBody] string message)
         {
-            _chatHub.SendMessage("",message);
+            _log.LogInformation($"Post: {message}");
+            _chatHub.SendMessage("", message);
             return Ok(1);
         }
     }
