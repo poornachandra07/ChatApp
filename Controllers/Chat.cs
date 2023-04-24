@@ -1,4 +1,5 @@
 ﻿using ChatApp.HubContext;
+using ChatApp.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SignalR;
 
@@ -24,10 +25,10 @@ namespace ChatApp.Controllers
         /// </summary>
         /// <param name="value"></param>
         [HttpPost("PostChat")]
-        public IActionResult Post([FromBody] string message)
+        public IActionResult Post([FromBody] MessageDto message)
         {
             _log.LogInformation($"Post: {message}");
-            _chatHub.SendMessage("", message);
+            _chatHub.SendMessage(message.user, message.msgText);
             return Ok(1);
         }
     }
